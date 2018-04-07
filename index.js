@@ -53,4 +53,4 @@ db.ref(path).on("value", async function(changedSnapshot) {
   });
 });
 
-process.on("unhandledRejection", console.log);
+process.on("unhandledRejection", console.error);
