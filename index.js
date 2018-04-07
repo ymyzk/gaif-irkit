@@ -14,6 +14,8 @@ firebase.initializeApp(config.firebase);
 const db = firebase.database();
 let initial = true;
 
+const DRY_RUN = !!process.env.DRY_RUN;
+
 db.ref(path).on("value", async function(changedSnapshot) {
   if (initial) {
     initial = false;
@@ -38,6 +40,11 @@ db.ref(path).on("value", async function(changedSnapshot) {
   const message = MESSAGES[action];
   if (!message) {
     console.log(`Failed to find message for command & action: ${command} / ${action}`);
+    return;
+  }
+
+  if (DRY_RUN) {
+    console.log("DRY_RUN is set, skipping...");
     return;
   }
 
